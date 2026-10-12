@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Chosang!</title>
+    <style>
+        :root {
+            --primary: #ff7675;
+            --secondary: #74b9ff;
+            --bg: #ffeaa7;
+            --card-bg: #ffffff;
+            --text: #2d3436;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: var(--text);
+        }
+
+        .card-container {
+            perspective: 1000px;
+            width: 350px;
+            height: 500px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-radius: 20px;
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+        }
+
+        /* Front Side styling */
+        .card-front {
+            background: linear-gradient(135deg, var(--primary), #fd79a8);
+            color: white;
+        }
+
+        .cake-emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .card-front h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .card-front p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .hint {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        /* Back Side / Letter styling */
+        .card-back {
+            background: var(--card-bg);
+            transform: rotateY(180deg);
+            justify-content: flex-start;
+            align-items: flex-start;
+            text-align: left;
+            overflow-y: auto;
+            border: 4px solid var(--primary);
+        }
+
+        .letter-header {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            width: 100%;
+            border-bottom: 2px dashed #ffeaa7;
+            padding-bottom: 5px;
+        }
+
+        .letter-body {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+            flex-grow: 1;
+        }
+
+        .letter-footer {
+            margin-top: 20px;
+            font-weight: bold;
+            color: var(--text);
+            width: 100%;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Confetti particle elements */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-container" onclick="flipCard()">
+        <div class="card" id="birthdayCard">
+            <!-- FRONT OF THE CARD -->
+            <div class="card-face card-front">
+                <div class="cake-emoji">🎂</div>
+                <h1>Happy Birthday, Chosang!</h1>
+                <p>Wishing you the happiest day ever.</p>
+                <div class="hint">Tap to open your letter ✨</div>
+            </div>
+            
+            <!-- BACK OF THE CARD / LETTER -->
+            <div class="card-face card-back">
+                <div class="letter-header">Dear Chosang,</div>
+                <div class="letter-body">
+                    Happy Birthday! I am so incredibly grateful to have you in my life. Thank you for being such an amazing friend, for all the laughs we share, and for always being someone I can count on. 
+                    <br><br>
+                    I hope this year brings you endless joy, success, and everything your heart desires. Cheers to celebrating you today and creating many more memories together!
+                </div>
+                <div class="letter-footer">
+                    With love,<br>
+                    [Your Name]
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function flipCard() {
+            const card = document.getElementById('birthdayCard');
+            card.classList.toggle('flipped');
+            
+            // Trigger confetti when opened
+            if(card.classList.contains('flipped')) {
+                createConfetti();
+            }
+        }
+
+        function createConfetti() {
+            const colors = ['#ff7675', '#74b9ff', '#55efc4', '#fdcb6e', '#a29bfe'];
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                document.body.appendChild(confetti);
+
+                const x = window.innerWidth / 2;
+                const y = window.innerHeight / 2;
+                
+                confetti.style.left = x + 'px';
+                confetti.style.top = y + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0%';
+                
+                const destinationX = (Math.random() - 0.5) * window.innerWidth;
+                const destinationY = (Math.random() - 0.5) * window.innerHeight;
+
+                const animation = confetti.animate([
+                    { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                    { transform: `translate(${destinationX}px, ${destinationY}px) scale(0)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 1000 + 1000,
+                    easing: 'cubic-bezier(0, .9, .57, 1)',
+                    delay: Math.random() * 200
+                });
+
+                animation.onfinish = () => confetti.remove();
+            }
+        }
+    </script>
+</body>
+</html>
